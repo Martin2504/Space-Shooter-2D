@@ -21,6 +21,8 @@ public class Player : MonoBehaviour                     // : means inherits
 
     [SerializeField]
     private bool _isTripleShotActive = false;
+    [SerializeField]
+    private bool _isSpeedActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -59,17 +61,12 @@ public class Player : MonoBehaviour                     // : means inherits
         float verticalInput = Input.GetAxis("Vertical");
 
             // (1) Lets move the object by using the arrow keys 
-                // Vector3.right is the same as writing 'new Vector3(1, 0, 0)'
-                // new Vector3(1, 0, 0) * 0 {the horizontalInput variable}  * 3.5f * real time. 
-//        transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime);
-                // new Vector3(0, 1, 0) * 0 {the verticalInput variable}  * 3.5f * real time.
-//        transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
-                // A more optimized solution. 
         transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
 
-            // (2) Lets add some restraints
-                // Add y restraint minimum -3.8f and maximum 1. 
-                // An optimized solution for 'clamping' the y values between 1 and -3.8f. 
+
+        // (2) Lets add some restraints
+        // Add y restraint minimum -3.8f and maximum 1. 
+        // An optimized solution for 'clamping' the y values between 1 and -3.8f. 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 1), 0);
 
                 // Add x restraint minimum -11f and maximum 11, but make it wrap around. 
@@ -113,12 +110,28 @@ public class Player : MonoBehaviour                     // : means inherits
     {
         _isTripleShotActive = true;
         // Staring power down coroutine for triple shot
-        StartCoroutine(TripleShotPowerDownRoutine());
+        StartCoroutine(PowerDownRoutine(_isTripleShotActive));
     }
 
-    IEnumerator TripleShotPowerDownRoutine()
+    public void SpeedActive()
+    {
+        _isSpeedActive = true;
+        _speed = 10f;
+        StartCoroutine(PowerDownRoutine(_isSpeedActive));
+    }
+
+    IEnumerator PowerDownRoutine(bool powerup)
     {
         yield return new WaitForSeconds(5.0f);
-        _isTripleShotActive = false;
+        if (powerup == _isTripleShotActive)
+        {
+            _isTripleShotActive = false;
+        } else if (powerup == _isSpeedActive)
+        {
+            _isSpeedActive = false;
+            _speed = 3.5f;
+        }
     }
+
+ 
 }
