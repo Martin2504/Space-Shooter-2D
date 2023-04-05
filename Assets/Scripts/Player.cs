@@ -18,6 +18,8 @@ public class Player : MonoBehaviour                     // : means inherits
     [SerializeField]
     private int _lives = 3;     // Giving the player 3 lives. 
     private SpawnManager _spawnManager;
+    [SerializeField]
+    public GameObject _shieldVisualizer;
 
     [SerializeField]
     private bool _isTripleShotActive = false;
@@ -102,6 +104,7 @@ public class Player : MonoBehaviour                     // : means inherits
         if (_isShieldActive == true)
         {
             _isShieldActive = false;
+            _shieldVisualizer.SetActive(false);
             return;
         }
 
@@ -130,7 +133,8 @@ public class Player : MonoBehaviour                     // : means inherits
 
     public void ShieldActive()
     {
-        _isShieldActive = true;   
+        _isShieldActive = true;
+        _shieldVisualizer.SetActive(true);
     }
 
     IEnumerator PowerDownRoutine(bool powerup)
@@ -146,5 +150,6 @@ public class Player : MonoBehaviour                     // : means inherits
         } 
     }
 
- 
+    
+
 }
