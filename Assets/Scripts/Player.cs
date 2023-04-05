@@ -23,6 +23,8 @@ public class Player : MonoBehaviour                     // : means inherits
     private bool _isTripleShotActive = false;
     [SerializeField]
     private bool _isSpeedActive = false;
+    [SerializeField]
+    private bool _isShieldActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -97,6 +99,12 @@ public class Player : MonoBehaviour                     // : means inherits
 
     public void Damage()    // Method to damage the player.
     {
+        if (_isShieldActive == true)
+        {
+            _isShieldActive = false;
+            return;
+        }
+
         _lives--;   // Subtract 1 from _lives. 
 
         if (_lives == 0)    // Are we dead?
@@ -120,6 +128,11 @@ public class Player : MonoBehaviour                     // : means inherits
         StartCoroutine(PowerDownRoutine(_isSpeedActive));
     }
 
+    public void ShieldActive()
+    {
+        _isShieldActive = true;   
+    }
+
     IEnumerator PowerDownRoutine(bool powerup)
     {
         yield return new WaitForSeconds(5.0f);
@@ -130,7 +143,7 @@ public class Player : MonoBehaviour                     // : means inherits
         {
             _isSpeedActive = false;
             _speed = 3.5f;
-        }
+        } 
     }
 
  

@@ -50,7 +50,7 @@ public class Powerup : MonoBehaviour
                         player.SpeedActive();
                         break;
                     case 2:
-                        // Activate shield powerup
+                        player.ShieldActive();
                         break;
                 }
             }
