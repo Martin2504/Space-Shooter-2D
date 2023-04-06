@@ -119,7 +119,7 @@ public class Player : MonoBehaviour                     // : means inherits
         }
 
         _lives--;   // Subtract 1 from _lives. 
-
+        _uiManager.UpdateLives(_lives);
         if (_lives == 0)    // Are we dead?
         {
             _spawnManager.OnPlayerDeath();      // Telling the spawn manager player has died.
