@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour                     // : means inherits
                                                         // MonoBehaviour gives us two functions out of the box. Start and Update. 
 {
-
     [SerializeField]    // This annotation means the value can be adjusted in the inspector. 
     private float _speed = 3.5f;
     [SerializeField]
@@ -28,16 +27,27 @@ public class Player : MonoBehaviour                     // : means inherits
     [SerializeField]
     private bool _isShieldActive = false;
 
+    [SerializeField]
+    private int _score;
+
+    private UIManager _uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
         // Access the transform component of the Player Object and change its position.
         transform.position = new Vector3(0, 0, 0);
-
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();      // Get SpawnManager component. 
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
+        }
+
+        if ( _uiManager == null)
+        {
+            Debug.LogError("The UI Manager is NULL.");
         }
     }
 
@@ -150,6 +160,14 @@ public class Player : MonoBehaviour                     // : means inherits
         } 
     }
 
-    
+    // Method to add 10 to the score.
+    public void AddScore(int points)
+    {
+        _score = _score + points;
+        _uiManager.UpdateScore(_score);
+
+    }
+
+
 
 }
