@@ -37,8 +37,22 @@ public class UIManager : MonoBehaviour
 
         if (livesLeft == 0)
         {
-            _gameOverText.gameObject.SetActive(true);   // Display Game Over text.
+
+            StartCoroutine(flicker());
         }   
+    }
+
+    IEnumerator flicker()
+    {
+        while (true)
+        {
+            _gameOverText.gameObject.SetActive(true);   // Display Game Over text.
+            yield return new WaitForSeconds(0.2f);
+            _gameOverText.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+
     }
 
     
