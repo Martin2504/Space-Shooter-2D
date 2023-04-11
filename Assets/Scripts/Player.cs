@@ -6,7 +6,7 @@ public class Player : MonoBehaviour                     // : means inherits
                                                         // MonoBehaviour gives us two functions out of the box. Start and Update. 
 {
     [SerializeField]    // This annotation means the value can be adjusted in the inspector. 
-    private float _speed = 3.5f;
+    private float _speed = 5f;
     [SerializeField]
     public GameObject _laserPrefab;
     [SerializeField]
@@ -156,7 +156,7 @@ public class Player : MonoBehaviour                     // : means inherits
         } else if (powerup == _isSpeedActive)
         {
             _isSpeedActive = false;
-            _speed = 3.5f;
+            _speed = 5f;
         } 
     }
 
