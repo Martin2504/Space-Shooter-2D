@@ -32,6 +32,11 @@ public class Player : MonoBehaviour                     // : means inherits
 
     private UIManager _uiManager;
 
+    [SerializeField]
+    public GameObject _rightDamageVisualizer;
+    [SerializeField]
+    public GameObject _leftDamageVisualizer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -119,6 +124,15 @@ public class Player : MonoBehaviour                     // : means inherits
         }
 
         _lives--;   // Subtract 1 from _lives. 
+        if (_lives == 2)
+        {
+            _rightDamageVisualizer.SetActive(true);
+        } else if (_lives == 1)
+        {
+            _leftDamageVisualizer.SetActive(true);
+        }
+
+
         _uiManager.UpdateLives(_lives);
         if (_lives == 0)    // Are we dead?
         {
