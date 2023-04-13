@@ -14,9 +14,9 @@ public class SpawnManager : MonoBehaviour
 
     private bool _stopSpawning = false;
 
-    // Start is called before the first frame update
-    void Start()
+    public void StartSpawning()
     {
+        
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
@@ -31,6 +31,7 @@ public class SpawnManager : MonoBehaviour
         // Create a co-routine of type IEnumerator which allows us to Yield events.
     IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(2.0f);
         while (_stopSpawning == false)          // loop until player dies.
         {   // Instantiate enemy prefab, yield wait for 3 seconds.
             Vector3 positionToSpawn = new Vector3(Random.Range(-6f, 6f), 7, 0);                             // Random Spawn point. 
@@ -42,6 +43,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerupRoutine()
     {
+        yield return new WaitForSeconds(2.0f);
         // Spawn powerup every 3-7 seconds.  
         while (_stopSpawning == false)
         {

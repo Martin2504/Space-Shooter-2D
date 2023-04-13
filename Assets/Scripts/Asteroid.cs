@@ -10,16 +10,22 @@ public class Asteroid : MonoBehaviour
     // handle to animatior component. 
     private Animator _animator;
 
+    private SpawnManager _spawnManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
 
         _animator = GetComponent<Animator>();
-
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         if (_animator == null)
         {
             Debug.LogError("The Animator is NULL.");
+        }
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manager is NULL.");
         }
 
     }
@@ -37,6 +43,7 @@ public class Asteroid : MonoBehaviour
             Destroy(other.gameObject);
             _animator.SetTrigger("OnAsteroidDestruction");
             Destroy(this.gameObject, 2.38f);
+            _spawnManager.StartSpawning();
         }
     }
 }
