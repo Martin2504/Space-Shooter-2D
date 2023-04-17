@@ -10,7 +10,10 @@ public class Powerup : MonoBehaviour
 
     // Uniquely identify powerups
     [SerializeField]        // 0 = Triple Shot, 1 = Speed, 2 = Shields
-    private int powerupID;      
+    private int powerupID;
+
+    [SerializeField]
+    private AudioClip _powerupSoundEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +41,9 @@ public class Powerup : MonoBehaviour
         {
             // Activate triple shot
             Player player = other.transform.GetComponent<Player>();     // Get refenernce to player component. 
+
+            AudioSource.PlayClipAtPoint(_powerupSoundEffect, Camera.main.transform.position);
+
             if (player != null)
             {
                 switch (powerupID)
@@ -54,6 +60,7 @@ public class Powerup : MonoBehaviour
                         break;
                 }
             }
+
             Destroy(this.gameObject);
         }
     }
