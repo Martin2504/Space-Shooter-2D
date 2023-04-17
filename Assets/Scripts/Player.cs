@@ -19,23 +19,24 @@ public class Player : MonoBehaviour                     // : means inherits
     private SpawnManager _spawnManager;
     [SerializeField]
     public GameObject _shieldVisualizer;
-
     [SerializeField]
     private bool _isTripleShotActive = false;
     [SerializeField]
     private bool _isSpeedActive = false;
     [SerializeField]
     private bool _isShieldActive = false;
-
     [SerializeField]
     private int _score;
-
     private UIManager _uiManager;
-
     [SerializeField]
     public GameObject _rightDamageVisualizer;
     [SerializeField]
     public GameObject _leftDamageVisualizer;
+    [SerializeField]
+    private AudioClip _laserSoundEffect;
+    [SerializeField]
+    private AudioSource _audioSource;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour                     // : means inherits
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();      // Get SpawnManager component. 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (_spawnManager == null)
         {
@@ -54,6 +56,15 @@ public class Player : MonoBehaviour                     // : means inherits
         {
             Debug.LogError("The UI Manager is NULL.");
         }
+
+        if (_audioSource == null)
+        {
+            Debug.LogError("AudioSource on the player is NULL.");
+        } else
+        {
+            _audioSource.clip = _laserSoundEffect;
+        }
+    
     }
 
     // Update is called once per frame
@@ -68,9 +79,6 @@ public class Player : MonoBehaviour                     // : means inherits
         {
             FireLaser();
         }
-
-
-
     }
 
     void CalculateMovement()    // All code related to movement. 
@@ -101,10 +109,9 @@ public class Player : MonoBehaviour                     // : means inherits
 
     void FireLaser()
     {
-                // Making projecties spawn on the player object. 
+           // Making projecties spawn on the player object. 
         _canFire = Time.time + _fireRate;     // Reassign + cool down delay. 
 
-        
         if (_isTripleShotActive == true)
         {   // Tripple shot power up.
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);        // Quaternion.identity = defult rotation.
@@ -112,6 +119,9 @@ public class Player : MonoBehaviour                     // : means inherits
         {   // Regular shot.
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);  // Adding 1.05 offset above player.
         }
+
+        // Play sound effect
+        _audioSource.Play();
     }
 
     public void Damage()    // Method to damage the player.
