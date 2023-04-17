@@ -12,6 +12,10 @@ public class Asteroid : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
+    [SerializeField]
+    private AudioClip _explosionSoundEffect;
+    [SerializeField]
+    private AudioSource _audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +23,8 @@ public class Asteroid : MonoBehaviour
 
         _animator = GetComponent<Animator>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _audioSource = GetComponent<AudioSource>();
+
         if (_animator == null)
         {
             Debug.LogError("The Animator is NULL.");
@@ -26,6 +32,15 @@ public class Asteroid : MonoBehaviour
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
+        }
+
+        if (_audioSource == null)
+        {
+            Debug.LogError("AudioSource on the asteroid is NULL.");
+        }
+        else
+        {
+            _audioSource.clip = _explosionSoundEffect;
         }
 
     }
@@ -42,6 +57,7 @@ public class Asteroid : MonoBehaviour
         {
             Destroy(other.gameObject);
             _animator.SetTrigger("OnAsteroidDestruction");
+            _audioSource.Play();
             Destroy(this.gameObject, 2.38f);
             _spawnManager.StartSpawning();
         }
