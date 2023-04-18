@@ -602,7 +602,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Instructions: \n\nUse the arrow keys to move \nyour ship around. \n\nUse
-    the space bar to fire at\nenemy ships and better your\nscore.\n\nCollect powerups
+    the space bar to fire at\nenemy ships and build up your\nscore.\n\nCollect powerups
     to help along\nthe way.\n\nEnjoy!\n\n"
 --- !u!222 &845235199
 CanvasRenderer:
