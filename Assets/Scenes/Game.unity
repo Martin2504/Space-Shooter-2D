@@ -1976,6 +1976,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5659801007153074088, guid: 4758dddbef6ebb64798e595b508be0c7, type: 3}
+      propertyPath: _explosionPrefab
+      value: 
+      objectReference: {fileID: 1203289970216249449, guid: 16978a16fded0d64ebef6f12f87e5a2f, type: 3}
+    - target: {fileID: -5659801007153074088, guid: 4758dddbef6ebb64798e595b508be0c7, type: 3}
       propertyPath: _explosionSoundEffect
       value: 
       objectReference: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}

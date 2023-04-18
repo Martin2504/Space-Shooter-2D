@@ -8,9 +8,11 @@ public class Asteroid : MonoBehaviour
     private float _rotationspeed = 30f;
 
     // handle to animatior component. 
-    private Animator _animator;
+//    private Animator _animator;
 
     private SpawnManager _spawnManager;
+    [SerializeField]
+    private GameObject _explosionPrefab;
 
     [SerializeField]
     private AudioClip _explosionSoundEffect;
@@ -21,14 +23,14 @@ public class Asteroid : MonoBehaviour
     void Start()
     {
 
-        _animator = GetComponent<Animator>();
+//        _animator = GetComponent<Animator>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _audioSource = GetComponent<AudioSource>();
 
-        if (_animator == null)
-        {
-            Debug.LogError("The Animator is NULL.");
-        }
+//        if (_animator == null)
+//        {
+//            Debug.LogError("The Animator is NULL.");
+//        }
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
@@ -55,11 +57,18 @@ public class Asteroid : MonoBehaviour
     {
         if (other.tag == "Laser")
         {
-            Destroy(other.gameObject);
-            _animator.SetTrigger("OnAsteroidDestruction");
+            GameObject newExplision = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            newExplision.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             _audioSource.Play();
-            Destroy(this.gameObject, 2.38f);
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+           
+
+//            _animator.SetTrigger("OnAsteroidDestruction");
+//            Destroy(this.gameObject, 2.38f);
+
             _spawnManager.StartSpawning();
+           
         }
     }
 }

@@ -10,8 +10,8 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
 
-    // handle to animatior component. 
-    private Animator _animator;
+    [SerializeField]
+    private GameObject _explosionPrefab;
 
     [SerializeField]
     private AudioClip _explosionSoundEffect;
@@ -22,13 +22,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();     // Getting a reference to the player component
-        _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
-
-        if (_animator == null)
-        {
-            Debug.LogError("The Animator is NULL.");
-        }
 
         if ( _player == null )
         {
@@ -69,10 +63,10 @@ public class Enemy : MonoBehaviour
             {   // Calling the damage method on the player component.
                 player.Damage();
             }
-            _animator.SetTrigger("OnEnemyDeath");   // Trigger destroy animation. 
-            _speed = 0;
+            GameObject newExplision = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            newExplision.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             _audioSource.Play();
-            Destroy(this.gameObject, 2.38f);         // Destroy game object after 2.38 seconds. 
+            Destroy(this.gameObject);         
             
         } else if (other.tag == "Laser")
         {
@@ -81,12 +75,10 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddScore(10);
             }
-            _animator.SetTrigger("OnEnemyDeath");
-            _speed = 0;
+            GameObject newExplision = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            newExplision.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             _audioSource.Play();
-            Destroy(this.gameObject, 2.38f);
-            
+            Destroy(this.gameObject);
         }
-
     }
 }
