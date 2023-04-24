@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
     private AudioClip _explosionSoundEffect;
     [SerializeField]
     private AudioSource _audioSource;
-
     [SerializeField]
     private GameObject _laserPrefab;
     private float _fireRate = 5.0f;
@@ -26,7 +25,7 @@ public class Enemy : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();     // Getting a reference to the player component
         _audioSource = GetComponent<AudioSource>();
 
-        if ( _player == null )
+        if (_player == null )
         {
             Debug.LogError("The Player is NULL.");
         }
@@ -44,9 +43,18 @@ public class Enemy : MonoBehaviour
     {
         CalulateMovement();
 
+        if (_player._score >= 100)
+        {
+            Fire();
+        }
+
+    }
+
+    void Fire()
+    {
         if (Time.time > _canFire )
         {
-            _fireRate = Random.Range(3f, 7f);
+            _fireRate = Random.Range(4f, 6f);
             _canFire = Time.time + _fireRate;
             GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
@@ -55,8 +63,7 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
         }
-
-
+        
     }
 
     void CalulateMovement()

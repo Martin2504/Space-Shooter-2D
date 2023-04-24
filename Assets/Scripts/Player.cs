@@ -26,7 +26,7 @@ public class Player : MonoBehaviour                     // : means inherits
     [SerializeField]
     private bool _isShieldActive = false;
     [SerializeField]
-    private int _score;
+    public int _score;
     private UIManager _uiManager;
     [SerializeField]
     public GameObject _rightDamageVisualizer;
@@ -36,6 +36,7 @@ public class Player : MonoBehaviour                     // : means inherits
     private AudioClip _laserSoundEffect;
     [SerializeField]
     private AudioSource _audioSource;
+
 
 
     // Start is called before the first frame update
@@ -52,7 +53,7 @@ public class Player : MonoBehaviour                     // : means inherits
             Debug.LogError("The Spawn Manager is NULL.");
         }
 
-        if ( _uiManager == null)
+        if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is NULL.");
         }
@@ -189,7 +190,6 @@ public class Player : MonoBehaviour                     // : means inherits
     {
         _score = _score + points;
         _uiManager.UpdateScore(_score);
-
     }
 
 
