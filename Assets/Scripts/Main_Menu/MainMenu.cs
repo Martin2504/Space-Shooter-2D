@@ -6,9 +6,15 @@ using UnityEngine.SceneManagement;
 // Responsible for launching the game 
 public class MainMenu : MonoBehaviour
 {
-    public void LoadGame()
+    public void LoadSinglePlayerGame()
     {
-        // Load the game scene
-        SceneManager.LoadScene(1);  // Main game scene 
+        // Load the sinlge player game scene
+        SceneManager.LoadScene("Single_Player");  // Main game scene 
+    }
+
+    public void LoadCoOpGame()
+    {
+        // Load the Co Op game scene
+        SceneManager.LoadScene("Co-Op_Game");  
     }
 }
