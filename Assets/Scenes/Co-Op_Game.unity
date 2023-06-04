@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGameOver: 0
+  isCoopMode: 1
 --- !u!1 &405012399
 GameObject:
   m_ObjectHideFlags: 0

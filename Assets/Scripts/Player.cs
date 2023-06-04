@@ -36,17 +36,16 @@ public class Player : MonoBehaviour                     // : means inherits
     private AudioClip _laserSoundEffect;
     [SerializeField]
     private AudioSource _audioSource;
-
-
+    private GameManager _gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Access the transform component of the Player Object and change its position.
-        transform.position = new Vector3(0, 0, 0);
+
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();      // Get SpawnManager component. 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
         if (_spawnManager == null)
         {
@@ -65,7 +64,18 @@ public class Player : MonoBehaviour                     // : means inherits
         {
             _audioSource.clip = _laserSoundEffect;
         }
-    
+        
+        if (_gameManager == null)
+        {
+            Debug.LogError("Game Manager is NULL.");
+        }
+
+        if (_gameManager.isCoopMode == false)
+        {
+            // Access the transform component of the Player Object and change its position.
+            transform.position = new Vector3(0, 0, 0);
+        }
+
     }
 
     // Update is called once per frame
