@@ -117,6 +117,8 @@ MonoBehaviour:
   _leftDamageVisualizer: {fileID: 8978333553260677575}
   _laserSoundEffect: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _audioSource: {fileID: 8978333552711036400}
+  isPlayerOne: 1
+  isPlayerTwo: 0
 --- !u!61 &8978333552711036401
 BoxCollider2D:
   m_ObjectHideFlags: 0

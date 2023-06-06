@@ -38,6 +38,9 @@ public class Player : MonoBehaviour                     // : means inherits
     private AudioSource _audioSource;
     private GameManager _gameManager;
 
+    public bool isPlayerOne = false;
+    public bool isPlayerTwo = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,15 +84,25 @@ public class Player : MonoBehaviour                     // : means inherits
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
 
-            // (3) Spawn game object when space key is pressed. Add a cool down of 0.5 seconds. 
-                // Time.time is how long the game has been running, in seconds. 
-                // If spacebar is pressed...
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (isPlayerOne)
         {
-            FireLaser();
+            CalculateMovement();
+            // (3) Spawn game object when space key is pressed. Add a cool down of 0.5 seconds. 
+            // Time.time is how long the game has been running, in seconds. 
+            // If spacebar is pressed...
+            if ((Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire) && isPlayerOne == true) 
+            {
+                FireLaser();
+            }
+        } 
+
+        if (isPlayerTwo) 
+        {
+            CalculateMovementPlayerTwo();
+            FireLaserPlayerTwo();
         }
+     
     }
 
     void CalculateMovement()    // All code related to movement. 
@@ -118,6 +131,47 @@ public class Player : MonoBehaviour                     // : means inherits
         }
     }
 
+    void CalculateMovementPlayerTwo()    
+    {
+       
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        if (Input.GetKey(KeyCode.W)) 
+        {
+            transform.Translate(Vector3.up * _speed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(Vector3.right * _speed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(Vector3.left * _speed * Time.deltaTime);
+        }
+
+
+        // transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 1), 0);
+
+        
+        if (transform.position.x >= 11)
+        {       
+            transform.position = new Vector3(-11, transform.position.y, 0);
+        }
+        else if (transform.position.x <= -11)
+        {
+            transform.position = new Vector3(11, transform.position.y, 0);
+        }
+    }
+
     void FireLaser()
     {
            // Making projecties spawn on the player object. 
@@ -127,6 +181,24 @@ public class Player : MonoBehaviour                     // : means inherits
         {   // Tripple shot power up.
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);        // Quaternion.identity = defult rotation.
         } else
+        {   // Regular shot.
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);  // Adding 1.05 offset above player.
+        }
+
+        // Play sound effect
+        _audioSource.Play();
+    }
+
+    void FireLaserPlayerTwo()
+    {
+        // Making projecties spawn on the player object. 
+        _canFire = Time.time + _fireRate;     // Reassign + cool down delay. 
+
+        if (_isTripleShotActive == true)
+        {   // Tripple shot power up.
+            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);        // Quaternion.identity = defult rotation.
+        }
+        else
         {   // Regular shot.
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);  // Adding 1.05 offset above player.
         }
