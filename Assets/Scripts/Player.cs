@@ -85,7 +85,7 @@ public class Player : MonoBehaviour                     // : means inherits
     void Update()
     {
 
-        if (isPlayerOne)
+        if (isPlayerOne == true)
         {
             CalculateMovement();
             // (3) Spawn game object when space key is pressed. Add a cool down of 0.5 seconds. 
@@ -95,12 +95,15 @@ public class Player : MonoBehaviour                     // : means inherits
             {
                 FireLaser();
             }
-        } 
+        }
 
-        if (isPlayerTwo) 
+        if (isPlayerTwo == true && isPlayerOne == false) 
         {
             CalculateMovementPlayerTwo();
-            FireLaserPlayerTwo();
+            if ((Input.GetKeyDown(KeyCode.CapsLock) && Time.time > _canFire) && isPlayerTwo == true)
+            {
+                FireLaser();
+            }
         }
      
     }
@@ -134,8 +137,8 @@ public class Player : MonoBehaviour                     // : means inherits
     void CalculateMovementPlayerTwo()    
     {
        
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        // float horizontalInput = Input.GetAxis("Horizontal");
+        // float verticalInput = Input.GetAxis("Vertical");
 
         if (Input.GetKey(KeyCode.W)) 
         {
@@ -159,9 +162,18 @@ public class Player : MonoBehaviour                     // : means inherits
 
 
         // transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 1), 0);
+        // transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 1), 0);
 
-        
+        if (transform.position.y >= 1)
+        {
+            transform.position = new Vector3(transform.position.x, 1, 0);
+        }
+        else if (transform.position.y <= -3.8f)
+        {
+            transform.position = new Vector3(transform.position.x, -3.8f, 0);
+        }
+
+
         if (transform.position.x >= 11)
         {       
             transform.position = new Vector3(-11, transform.position.y, 0);
@@ -181,24 +193,6 @@ public class Player : MonoBehaviour                     // : means inherits
         {   // Tripple shot power up.
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);        // Quaternion.identity = defult rotation.
         } else
-        {   // Regular shot.
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);  // Adding 1.05 offset above player.
-        }
-
-        // Play sound effect
-        _audioSource.Play();
-    }
-
-    void FireLaserPlayerTwo()
-    {
-        // Making projecties spawn on the player object. 
-        _canFire = Time.time + _fireRate;     // Reassign + cool down delay. 
-
-        if (_isTripleShotActive == true)
-        {   // Tripple shot power up.
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);        // Quaternion.identity = defult rotation.
-        }
-        else
         {   // Regular shot.
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);  // Adding 1.05 offset above player.
         }
